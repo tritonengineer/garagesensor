@@ -37,6 +37,11 @@ if(a < 10){
   digitalWrite(RED, HIGH);
   digitalWrite(GREEN, LOW);
   digitalWrite(BLUE, LOW);
+  for(int i=0;i<3;i++){
+    digitalWrite(buzzer,HIGH);
+    delay(80);
+    digitalWrite(buzzer,LOW);
+  }
   Serial.print(a);
   Serial.println("cm");
   delay(1000);
@@ -45,6 +50,7 @@ else if(a < 20){
   digitalWrite(GREEN, HIGH);
   digitalWrite(RED, LOW);
   digitalWrite(BLUE, LOW);
+  digitalWrite(buzzer,LOW);
   Serial.print(a);
   Serial.println("cm");
   delay(1000);
