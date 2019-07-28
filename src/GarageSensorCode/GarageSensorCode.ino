@@ -33,7 +33,7 @@ int blueValue = 0;
 void loop() {
 a=sr04.Distance();
 
-if(a < 203.2){
+if(a < 203){
   digitalWrite(RED, HIGH);
   digitalWrite(GREEN, LOW);
   digitalWrite(BLUE, LOW);
@@ -46,7 +46,7 @@ if(a < 203.2){
   Serial.println("cm");
   delay(1000);
 }
-else if(a < 226.06){
+else if(a < 226){
   digitalWrite(GREEN, HIGH);
   digitalWrite(RED, LOW);
   digitalWrite(BLUE, LOW);
@@ -57,6 +57,14 @@ else if(a < 226.06){
 }
 else if(a < 508){
   digitalWrite(BLUE, HIGH);
+  digitalWrite(GREEN, LOW);
+  digitalWrite(RED, LOW);
+  Serial.print(a);
+  Serial.println("cm");
+  delay(1000);
+}
+else{
+  digitalWrite(BLUE, LOW);
   digitalWrite(GREEN, LOW);
   digitalWrite(RED, LOW);
   Serial.print(a);
