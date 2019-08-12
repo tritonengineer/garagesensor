@@ -48,7 +48,8 @@ void loop() {
   lcd.setCursor(0, 1);
   lcd.print(a);
 
-  if (a < 203) {
+
+  if (a < 69) {
     digitalWrite(RED, HIGH);
     digitalWrite(GREEN, LOW);
     digitalWrite(BLUE, LOW);
@@ -63,7 +64,7 @@ void loop() {
     Serial.println("cm");
     delay(1000);
   }
-  else if (a < 226) {
+  else if (a < 94) {
     digitalWrite(GREEN, HIGH);
     digitalWrite(RED, LOW);
     digitalWrite(BLUE, LOW);
@@ -72,7 +73,7 @@ void loop() {
     Serial.println("cm");
     delay(1000);
   }
-  else if (a < 400) {
+  else if (a < 200) {
     digitalWrite(BLUE, HIGH);
     digitalWrite(GREEN, LOW);
     digitalWrite(RED, LOW);
