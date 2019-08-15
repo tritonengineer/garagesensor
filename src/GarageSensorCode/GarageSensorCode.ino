@@ -14,7 +14,6 @@ int buzzer = 12;//the pin of the active buzzer
 // initialize the library with the numbers of the interface pins
 LiquidCrystal lcd(7, 8, 9, 13, 4, 2);
 
-
 void setup() {
   // put your setup code here, to run once: modified
 
@@ -32,12 +31,13 @@ void setup() {
 
   // set up the LCD's number of columns and rows:
   lcd.begin(16, 2);
-  lcd.print("Hello, World!");
 }
 
-int redValue = 0;
-int greenValue = 0;
-int blueValue = 0;
+void setLightColor(int redVal, int greenVal, int blueVal) {
+  digitalWrite(RED,redVal);
+  digitalWrite(GREEN,greenVal);
+  digitalWrite(BLUE,blueVal);
+}
 
 void loop() {
   a = sr04.Distance();
@@ -50,37 +50,29 @@ void loop() {
 
 
   if (a < 69) {
-    digitalWrite(RED, HIGH);
-    digitalWrite(GREEN, LOW);
-    digitalWrite(BLUE, LOW);
-
+    setLightColor(HIGH,LOW,LOW);
+    
     /*for(int i=0;i<3;i++){
       digitalWrite(buzzer,HIGH);
       delay(80);
       digitalWrite(buzzer,LOW);
       }
     */
-    Serial.print(a);
-    Serial.println("cm");
-    delay(1000);
   }
   else if (a < 94) {
-    digitalWrite(GREEN, HIGH);
-    digitalWrite(RED, LOW);
-    digitalWrite(BLUE, LOW);
+    setLightColor(LOW,HIGH,LOW);
     digitalWrite(buzzer, LOW);
-    Serial.print(a);
-    Serial.println("cm");
-    delay(1000);
   }
-  else if (a < 200) {
-    digitalWrite(BLUE, HIGH);
-    digitalWrite(GREEN, LOW);
-    digitalWrite(RED, LOW);
-    Serial.print(a);
-    Serial.println("cm");
-    delay(1000);
+  else if (a < 250) {
+    setLightColor(LOW,LOW,HIGH);
   }
+  else{
+    setLightColor(LOW,LOW,LOW);
+  }
+
+   Serial.print(a);
+   Serial.println("cm");
+   delay(1000);
 
 
 }
