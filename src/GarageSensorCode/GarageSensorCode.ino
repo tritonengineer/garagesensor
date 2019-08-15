@@ -8,7 +8,7 @@
 #define ECHO_PIN 11
 SR04 sr04 = SR04(ECHO_PIN, TRIG_PIN);
 long a;
-String previousColor = "off";
+int previousColor = -1;
 
 int buzzer = 12;//the pin of the active buzzer
 
@@ -40,6 +40,15 @@ void setLightColor(int redVal, int greenVal, int blueVal) {
   digitalWrite(BLUE,blueVal);
 }
 
+void setBuzzes(int n){
+  for(int i=0;i<n;i++){
+    digitalWrite(buzzer,HIGH);
+    delay(300);
+    digitalWrite(buzzer,LOW);
+    delay(300);
+  }
+}
+
 void loop() {
   a = sr04.Distance();
    if(a > 400){
@@ -52,39 +61,28 @@ void loop() {
 
   if (a < 69) {
     setLightColor(HIGH,LOW,LOW);
-    if(!previousColor.equals("red")){
-      for(int i=0;i<3;i++){
-        digitalWrite(buzzer,HIGH);
-        delay(300);
-        digitalWrite(buzzer,LOW);
-        delay(300);
-      }
+    if(previousColor != RED){
+      setBuzzes(3);
     }
-    previousColor = "red";
+    previousColor = RED;
   }
   else if (a < 94) {
     setLightColor(LOW,HIGH,LOW);
-    if(!previousColor.equals("green")){
-      digitalWrite(buzzer,HIGH);
-      delay(300);
-      digitalWrite(buzzer,LOW);
-      delay(300);
+    if(previousColor != GREEN){
+      setBuzzes(1);
     }
-    previousColor = "green";
+    previousColor = GREEN;
   }
   else if (a < 250) {
     setLightColor(LOW,LOW,HIGH);
-    if(!previousColor.equals("blue")){
-      digitalWrite(buzzer,HIGH);
-      delay(300);
-      digitalWrite(buzzer,LOW);
-      delay(300);
+    if(previousColor != BLUE){
+      setBuzzes(1);
     }
-    previousColor = "blue";
+    previousColor = BLUE;
   }
   else{
     setLightColor(LOW,LOW,LOW);
-    previousColor = "off";
+    previousColor = -1;
   }
 
    Serial.print(a);
