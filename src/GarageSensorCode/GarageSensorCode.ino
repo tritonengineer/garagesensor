@@ -8,6 +8,7 @@
 #define ECHO_PIN 11
 SR04 sr04 = SR04(ECHO_PIN, TRIG_PIN);
 long a;
+String previousColor = "off";
 
 int buzzer = 12;//the pin of the active buzzer
 
@@ -51,23 +52,39 @@ void loop() {
 
   if (a < 69) {
     setLightColor(HIGH,LOW,LOW);
-    
-    /*for(int i=0;i<3;i++){
-      digitalWrite(buzzer,HIGH);
-      delay(80);
-      digitalWrite(buzzer,LOW);
+    if(!previousColor.equals("red")){
+      for(int i=0;i<3;i++){
+        digitalWrite(buzzer,HIGH);
+        delay(300);
+        digitalWrite(buzzer,LOW);
+        delay(300);
       }
-    */
+    }
+    previousColor = "red";
   }
   else if (a < 94) {
     setLightColor(LOW,HIGH,LOW);
-    digitalWrite(buzzer, LOW);
+    if(!previousColor.equals("green")){
+      digitalWrite(buzzer,HIGH);
+      delay(300);
+      digitalWrite(buzzer,LOW);
+      delay(300);
+    }
+    previousColor = "green";
   }
   else if (a < 250) {
     setLightColor(LOW,LOW,HIGH);
+    if(!previousColor.equals("blue")){
+      digitalWrite(buzzer,HIGH);
+      delay(300);
+      digitalWrite(buzzer,LOW);
+      delay(300);
+    }
+    previousColor = "blue";
   }
   else{
     setLightColor(LOW,LOW,LOW);
+    previousColor = "off";
   }
 
    Serial.print(a);
