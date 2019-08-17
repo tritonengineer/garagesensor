@@ -1,7 +1,15 @@
+//Color constants
 #define BLUE 3
 #define GREEN 5
 #define RED 6
 #define OFF -1
+
+
+//Distance change detection constants
+#define INACTIVITY_MILLIS 120000
+#define RED_ZONE 69
+#define GREEN_ZONE 94
+#define BLUE_ZONE 250
 
 #include "SR04.h"
 #include <LiquidCrystal.h>
@@ -66,7 +74,7 @@ void handleDistanceChange(int color, int buzzNumber){
       previousColor = color;
       previousColorChangeMillis = millis();
     }
-    else if((millis() - previousColorChangeMillis) >= 10000){
+    else if((millis() - previousColorChangeMillis) >= INACTIVITY_MILLIS){
       setLightColor(LOW,LOW,LOW);
     }
 }
@@ -81,13 +89,13 @@ void loop() {
   lcd.print(a);
 
 
-  if (a < 69) {
+  if (a < RED_ZONE) {
     handleDistanceChange(RED,3);
   }
-  else if (a < 94) {
+  else if (a < GREEN_ZONE) {
     handleDistanceChange(GREEN,1);
   }
-  else if (a < 250) {
+  else if (a < BLUE_ZONE) {
         handleDistanceChange(BLUE,1);
   }
   else{
