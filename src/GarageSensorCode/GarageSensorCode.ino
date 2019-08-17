@@ -1,6 +1,7 @@
 #define BLUE 3
 #define GREEN 5
 #define RED 6
+#define OFF -1
 
 #include "SR04.h"
 #include <LiquidCrystal.h>
@@ -8,7 +9,8 @@
 #define ECHO_PIN 11
 SR04 sr04 = SR04(ECHO_PIN, TRIG_PIN);
 long a;
-int previousColor = -1;
+int previousColor = OFF;
+unsigned long previousColorChangeMillis;
 
 int buzzer = 12;//the pin of the active buzzer
 
@@ -49,6 +51,26 @@ void setBuzzes(int n){
   }
 }
 
+void handleDistanceChange(int color, int buzzNumber){
+  if(previousColor != color){
+      if(color == RED){
+        setLightColor(HIGH,LOW,LOW);
+      }
+      else if(color == GREEN){
+        setLightColor(LOW,HIGH,LOW);
+      }
+      else if (color == BLUE){
+        setLightColor(LOW,LOW,HIGH);
+      }
+      setBuzzes(buzzNumber);
+      previousColor = color;
+      previousColorChangeMillis = millis();
+    }
+    else if((millis() - previousColorChangeMillis) >= 10000){
+      setLightColor(LOW,LOW,LOW);
+    }
+}
+
 void loop() {
   a = sr04.Distance();
    if(a > 400){
@@ -60,29 +82,17 @@ void loop() {
 
 
   if (a < 69) {
-    setLightColor(HIGH,LOW,LOW);
-    if(previousColor != RED){
-      setBuzzes(3);
-    }
-    previousColor = RED;
+    handleDistanceChange(RED,3);
   }
   else if (a < 94) {
-    setLightColor(LOW,HIGH,LOW);
-    if(previousColor != GREEN){
-      setBuzzes(1);
-    }
-    previousColor = GREEN;
+    handleDistanceChange(GREEN,1);
   }
   else if (a < 250) {
-    setLightColor(LOW,LOW,HIGH);
-    if(previousColor != BLUE){
-      setBuzzes(1);
-    }
-    previousColor = BLUE;
+        handleDistanceChange(BLUE,1);
   }
   else{
     setLightColor(LOW,LOW,LOW);
-    previousColor = -1;
+    previousColor = OFF;
   }
 
    Serial.print(a);
