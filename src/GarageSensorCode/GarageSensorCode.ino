@@ -31,6 +31,7 @@ void setup() {
   digitalWrite(GREEN, LOW);
   digitalWrite(BLUE, LOW);
 
+  Serial.begin(9600);
   delay(1000);
 
   pinMode(buzzer, OUTPUT);
@@ -92,6 +93,8 @@ void loop() {
     setLightColor(LOW,LOW,LOW);
     previousColor = OFF;
   }
+
+  
    delay(1000);
 
 
